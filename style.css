@@ -1,0 +1,15 @@
+
+
+div{
+    margin-top: 5px;
+    display: flex;
+    flex-direction: column;
+    width: 300px;
+    gap: 5px;   
+}
+
+p{  
+    min-height: 20px;
+    margin: 0;
+    padding: 0;
+}

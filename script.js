@@ -14,36 +14,21 @@ function getComputerChoice(){
     return result;
 }
 
-function getHumanChoice(){
-    let answer = prompt("Answer: ");
-    let result = "";
-    if (answer.toLowerCase() == "rock"){
-        result = "rock";
-    } else if (answer.toLowerCase() == "paper"){
-        result = "paper";
-    } else if (answer.toLowerCase() == "scissors"){
-        result = "scissors";
-    } else {
-        result = "invalid";
-    }
-    return result;
-}
-
 function playRound(humanChoice, computerChoice){
-    let result = ""
-    if (humanChoice == "rock") {
+    let result = "";
+    if (humanChoice === "rock") {
         switch (computerChoice) {
             case "rock": result = "tie"; break;
             case "paper": result = "lose"; break;
             case "scissors": result = "win"; break;
         }
-    } else if (humanChoice == "paper") {
+    } else if (humanChoice === "paper") {
         switch (computerChoice) {
             case "rock": result = "win"; break;
             case "paper": result = "tie"; break;
             case "scissors": result = "lose"; break;
         }
-    } else if (humanChoice == "scissors") {
+    } else if (humanChoice === "scissors") {
         switch (computerChoice) {
             case "rock": result = "lose"; break;
             case "paper": result = "win"; break;
@@ -54,26 +39,50 @@ function playRound(humanChoice, computerChoice){
     }
 
     if (result == "win"){
-        console.log(`You win!, ${humanChoice.toUpperCase()} beats ${computerChoice.toUpperCase()}`);
-        ++humanScore;
+        message.textContent = `You win!, ${humanChoice.toUpperCase()} beats ${computerChoice.toUpperCase()}`;
+        humanScore++;
     } else if (result == "lose"){
-        console.log(`You lose!, ${computerChoice.toUpperCase()} beats ${humanChoice.toUpperCase()}`);
-        ++computerScore;
+        message.textContent = `You lose!, ${computerChoice.toUpperCase()} beats ${humanChoice.toUpperCase()}`;
+        computerScore++;
     } else if (result == "tie"){
-        console.log(`It's a tie!, both had ${humanChoice.toUpperCase()}`);
+       message.textContent = `It's a tie!, both had ${humanChoice.toUpperCase()}`;
     } else {
-        console.log("Nothing");
+        message.textContent = "Nothing";
     }
 
-}
+    score.textContent = `Human Score: ${humanScore} Computer Score: ${computerScore}`;
 
-for(let check = true; check != false;){
-    console.log(`Current Score - Human Score: ${humanScore} Computer Score: ${computerScore}`);
-    playRound(getHumanChoice(), getComputerChoice());
-    let answer = prompt("Do you want to continue? (y/n): ");
-    switch (answer) {
-        case "n": check = false; break;
-        case "y": default: check = true; break;
+    if(checkWinner(humanScore, computerScore)){
+        message.textContent = (humanScore > computerScore)?'Human Wins!':'Computer Wins';
+        humanScore = computerScore = 0;
     }
 }
+
+function checkWinner(humanScore, computerScore){
+    return (humanScore === 5 || computerScore === 5);
+}
+
+let rockButton = document.querySelector("#rock");
+let paperButton = document.querySelector("#paper");
+let scissorsButton = document.querySelector("#scissors");
+let container = document.createElement("div");
+let message = document.createElement("p");
+let score = document.createElement("p");
+score.textContent = `Human Score: ${humanScore} Computer Score: ${computerScore}`;
+document.body.appendChild(container);
+container.appendChild(message);
+container.appendChild(score);
+
+
+rockButton.addEventListener("click", ()=>{
+    playRound("rock", getComputerChoice());
+});
+paperButton.addEventListener("click", ()=>{
+    playRound("paper", getComputerChoice());
+});
+scissorsButton.addEventListener("click", ()=>{
+    playRound("scissors", getComputerChoice());
+});
+
+
 
